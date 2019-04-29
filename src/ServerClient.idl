@@ -1,0 +1,41 @@
+module ServerClient
+{
+    struct Message
+    {
+        string nickname;
+        string content;
+    };
+
+    typedef sequence<Message> History;
+
+    interface Receiver
+    {
+    	void newMessage(in string nickname, in string message);
+    	void newUser(in string nickname);
+    	void removeUser(in string nickname);
+    	void newHistory(in History history);
+    };
+
+    interface ClientServerCommunication
+    {
+    	void sendMessage(in string nickname, in string message);
+    	void register(in string nickname, in Receiver receive);
+    	void unregister(in string nickname);
+    };
+};
+
+module HistoryServer
+{
+	struct Message{
+	    string nickname;
+	    string content;
+};
+
+	typedef sequence<Message> History;
+
+	interface HistoryServerCommunication
+	{
+		History getHistory();
+		void MessageToHistory(in string nickname, in string message);
+	};
+};
