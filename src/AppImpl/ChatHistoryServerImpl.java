@@ -20,11 +20,21 @@ public class ChatHistoryServerImpl extends ChatHistoryMethodsPOA {
     @Override
     public HistoryMessage[] getHistory() {
         HistoryMessage[] historyMessageArray = new HistoryMessage[messageHistory.size()];
-
+        for(int i = 0; i < messageHistory.size(); i++)
+        {
+            historyMessageArray[i] = messageHistory.get(i);
+        }
+        return historyMessageArray;
     }
 
     @Override
     public void addMessage(String clientName, String message) {
+        HistoryMessage newHistoryMessage = new HistoryMessage(clientName, message);
 
+        messageHistory.addLast(newHistoryMessage);
+        if(messageHistory.size() > maxHistorySize)
+        {
+            messageHistory.removeFirst();
+        }
     }
 }
