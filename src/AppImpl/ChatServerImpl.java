@@ -1,16 +1,24 @@
 package AppImpl;
 
+import ChatApp.ChatClient;
 import ChatApp.ChatHistoryMethodsPOA;
+import ChatApp.ChatServerPOA;
 import ChatApp.HistoryMessage;
 
-public class ChatServerImpl extends ChatHistoryMethodsPOA {
+public class ChatServerImpl extends ChatServerPOA {
+
     @Override
-    public HistoryMessage[] getHistory() {
-        return new HistoryMessage[0];
+    public boolean login(String clientName, ChatClient chatClient) {
+        return false;
     }
 
     @Override
-    public void addMessage(String clientName, String message) {
+    public boolean logout(String clientName) {
+        return false;
+    }
+
+    @Override
+    public void receiveMessage(String clientName, String chatMessage) {
 
     }
 }

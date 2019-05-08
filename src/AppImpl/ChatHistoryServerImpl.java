@@ -1,21 +1,23 @@
 package AppImpl;
 
 import ChatApp.ChatClient;
+import ChatApp.ChatHistoryMethodsPOA;
 import ChatApp.ChatServerPOA;
+import ChatApp.HistoryMessage;
 
-public class ChatHistoryServerImpl extends ChatServerPOA {
+import java.util.LinkedList;
+
+public class ChatHistoryServerImpl extends ChatHistoryMethodsPOA {
+
+    LinkedList<HistoryMessage> messageHistory = new LinkedList<>();
+
     @Override
-    public boolean login(String clientName, ChatClient chatClient) {
-        return false;
+    public HistoryMessage[] getHistory() {
+        return new HistoryMessage[0];
     }
 
     @Override
-    public boolean logout(String clientName) {
-        return false;
-    }
-
-    @Override
-    public void receiveMessage(String clientName, String chatMessage) {
+    public void addMessage(String clientName, String message) {
 
     }
 }
