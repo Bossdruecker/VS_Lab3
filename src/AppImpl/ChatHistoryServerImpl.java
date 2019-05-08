@@ -9,11 +9,18 @@ import java.util.LinkedList;
 
 public class ChatHistoryServerImpl extends ChatHistoryMethodsPOA {
 
+    private final int maxHistorySize;
     LinkedList<HistoryMessage> messageHistory = new LinkedList<>();
+
+    public ChatHistoryServerImpl(int maxHistorySize)
+    {
+        this.maxHistorySize = maxHistorySize;
+    }
 
     @Override
     public HistoryMessage[] getHistory() {
-        return new HistoryMessage[0];
+        HistoryMessage[] historyMessageArray = new HistoryMessage[messageHistory.size()];
+
     }
 
     @Override

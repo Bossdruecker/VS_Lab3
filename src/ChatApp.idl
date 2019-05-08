@@ -1,28 +1,33 @@
 module ChatApp{
 
-    struct HistoryMessage{
+    struct HistoryMessage
+    {
         string clientName;
         string message;
     };
 
     typedef sequence<HistoryMessage> messageHistory;
 
-    interface ChatHistoryMethods{
+    interface ChatHistoryMethods
+    {
         messageHistory getHistory();
         void addMessage(in string clientName, in string message);
     };
 
     //client and server interface
-    interface MessageReceiver {
+    interface MessageReceiver
+    {
         void receiveMessage(in string clientName, in string chatMessage);
     };
 
-    interface ChatClient : MessageReceiver{
+    interface ChatClient : MessageReceiver
+    {
         void receiveLoginMessage(in string clientName);
         void receiveLogoutMessage(in string clientName);
     };
 
-    interface ChatServer : MessageReceiver {
+    interface ChatServer : MessageReceiver
+    {
         boolean login(in string clientName, in ChatClient chatClient);
         boolean logout(in string clientName);
     };
