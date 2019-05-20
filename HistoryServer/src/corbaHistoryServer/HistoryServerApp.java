@@ -11,7 +11,8 @@ import org.omg.PortableServer.POAHelper;
 
 import java.util.Scanner;
 
-public class HistoryServerApp {
+public class HistoryServerApp
+{
     public static void main(String[] args)
     {
         try

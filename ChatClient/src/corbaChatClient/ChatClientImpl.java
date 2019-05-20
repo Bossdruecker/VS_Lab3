@@ -2,7 +2,8 @@ package corbaChatClient;
 
 import ChatApp.ChatClientPOA;
 
-public class ChatClientImpl extends ChatClientPOA {
+public class ChatClientImpl extends ChatClientPOA
+{
 
     private String nickname = "---";
 

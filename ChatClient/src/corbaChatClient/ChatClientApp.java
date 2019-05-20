@@ -36,7 +36,7 @@ public class ChatClientApp {
             NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
 
             ChatServer chatServer = ChatServerHelper.narrow(ncRef.resolve_str(CHAT_SERVER_NAME));
-            System.out.println("Obtained a handle on server object: " + chatServer);
+            //System.out.println("Obtained a handle on server object: " + chatServer);
 
             ChatClientImpl chatClientImpl = new ChatClientImpl();
             ChatClient chatClient = ChatClientHelper.narrow(rootpoa.servant_to_reference(chatClientImpl));
