@@ -48,6 +48,7 @@ public class ChatServerApp {
 
             // wait for invocations from clients
             orb.run();
+            System.out.println("ChatHistoryServer ready and waiting ...");
         }
         catch (Exception e)
         {

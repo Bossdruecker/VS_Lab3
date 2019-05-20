@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class ChatClientApp {
 
-    static final String EXIT_COMMAND = "!Exit";
+    static final String EXIT_CMD = "!Exit";
     static final String CHAT_SERVER_NAME = "ChatServer";
 
     public static void main(String[] args)
@@ -36,36 +36,43 @@ public class ChatClientApp {
             NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
 
             ChatServer chatServer = ChatServerHelper.narrow(ncRef.resolve_str(CHAT_SERVER_NAME));
-
             System.out.println("Obtained a handle on server object: " + chatServer);
-
 
             ChatClientImpl chatClientImpl = new ChatClientImpl();
             ChatClient chatClient = ChatClientHelper.narrow(rootpoa.servant_to_reference(chatClientImpl));
 
             Scanner in = new Scanner(System.in);
-            boolean loginSuccess;
-            do {
-                System.out.println("Enter nickname: ");
+            boolean loginSuccess = false;
+
+            //solange Login nicht bestätigt wird wird ein neuer Nickname gefragt
+            while (loginSuccess == false)
+            {
+                System.out.println("Bitte geben Sie ihren Nickname an: ");
                 chatClientImpl.setClientName(in.nextLine());
-                loginSuccess = chatServer.login(chatClientImpl.getName(), chatClient);
+                loginSuccess = chatServer.login(chatClientImpl.getNickname(), chatClient);
 
-                if (loginSuccess == false) {
-                    System.out.println("Login failed, Nickname already exists.");
+                if (loginSuccess == false)
+                {
+                    System.out.println("Login fehlgeschlagen, Nickname existiert! Bitte neuen Nickname eingeben.");
                 }
+            }
+            System.out.println("Sie sind jetzt angemeldet");
 
-            } while (loginSuccess == false);
-
-            String message;
-            do {
+            //message überprüfen auf !Exit Command bei jeder Nachricht
+            String message = "";
+            while (!EXIT_CMD.equals(message))
+            {
                 message = in.nextLine();
 
-                if (EXIT_COMMAND.equals(message)) {
-                    chatServer.logout(chatClientImpl.getName());
-                } else {
-                    chatServer.receiveMessage(chatClientImpl.getName(), message);
+                if (EXIT_CMD.equals(message))
+                {
+                    chatServer.logout(chatClientImpl.getNickname());
                 }
-            } while (!EXIT_COMMAND.equals(message));
+                else
+                {
+                    chatServer.receiveMessage(chatClientImpl.getNickname(), message);
+                }
+            }
         }
         catch (Exception e)
         {

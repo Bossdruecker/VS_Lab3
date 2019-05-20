@@ -34,10 +34,10 @@ public class HistoryServerApp {
             System.out.println("Enter HistorySize:");
             Scanner in = new Scanner(System.in);
             int historySize = in.nextInt();
-            HistoryServerImpl historyRepo = new HistoryServerImpl(historySize);
+            HistoryServerImpl historyServer = new HistoryServerImpl(historySize);
 
             // get object reference from the servant
-            org.omg.CORBA.Object ref = rootpoa.servant_to_reference(historyRepo);
+            org.omg.CORBA.Object ref = rootpoa.servant_to_reference(historyServer);
             ChatHistoryMethods href = ChatHistoryMethodsHelper.narrow(ref);
 
             // bind the Object Reference in Naming
@@ -49,6 +49,7 @@ public class HistoryServerApp {
 
             // wait for invocations from clients
             orb.run();
+            System.out.println("ChatHistoryServer ready and waiting ...");
         }
         catch (Exception e)
         {
@@ -56,6 +57,6 @@ public class HistoryServerApp {
             e.printStackTrace(System.out);
         }
 
-        System.out.println("HelloServer Exiting ...");
+        System.out.println("ChatHistoryServer Exiting ...");
     }
 }

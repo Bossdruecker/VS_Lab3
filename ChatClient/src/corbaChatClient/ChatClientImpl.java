@@ -4,28 +4,33 @@ import ChatApp.ChatClientPOA;
 
 public class ChatClientImpl extends ChatClientPOA {
 
-    private String clientName = "unknownUser";
+    private String nickname = "---";
 
-    public String getName() {
-        return clientName;
+    public String getNickname()
+    {
+        return nickname;
     }
 
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
-    }
-
-    @Override
-    public void receiveLoginMessage(String clientName) {
-        System.out.println(clientName + " ist dem Chat beigetreten.");
+    public void setClientName(String nickname)
+    {
+        this.nickname = nickname;
     }
 
     @Override
-    public void receiveLogoutMessage(String clientName) {
-        System.out.println(clientName + " hat den Chat verlassen.");
+    public void receiveLoginMessage(String nickname)
+    {
+        System.out.println(nickname + " ist dem Chat beigetreten.");
     }
 
     @Override
-    public void receiveMessage(String clientName, String chatMessage) {
-        System.out.println(clientName + ": " + chatMessage);
+    public void receiveLogoutMessage(String nickname)
+    {
+        System.out.println(nickname + " hat den Chat verlassen.");
+    }
+
+    @Override
+    public void receiveMessage(String nickname, String chatMessage)
+    {
+        System.out.println(nickname + ": " + chatMessage);
     }
 }

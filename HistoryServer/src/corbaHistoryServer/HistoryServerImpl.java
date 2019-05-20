@@ -5,40 +5,46 @@ import ChatApp.HistoryMessage;
 
 import java.util.LinkedList;
 
-public class HistoryServerImpl extends ChatHistoryMethodsPOA {
+public class HistoryServerImpl extends ChatHistoryMethodsPOA
+{
+    private LinkedList<HistoryMessage> messageHistory = new LinkedList<>();
+    private int historySize;
 
-    private final int maxMessageHistorySize;
-
-    LinkedList<HistoryMessage> messageHistory = new LinkedList<>();
-
-    public HistoryServerImpl(int maxMessageHistorySize) {
-        super();
-        this.maxMessageHistorySize = maxMessageHistorySize;
+    public HistoryServerImpl(int historySize)
+    {
+        this.historySize = historySize;
     }
 
     @Override
-    public HistoryMessage[] getHistory() {
-        synchronized (messageHistory) {
-            HistoryMessage[] historyMessagesArray = new HistoryMessage[messageHistory.size()];
+    public HistoryMessage[] getHistory()
+    {
+        HistoryMessage[] historyMessagesArray = new HistoryMessage[messageHistory.size()];
 
-            for (int i = messageHistory.size() - 1; i >= 0;
-                 i--) {
+        synchronized (messageHistory)
+        {
+            for (int i = 0; i < messageHistory.size(); i++)
+            {
                 historyMessagesArray[i] = messageHistory.get(i);
             }
-
             return historyMessagesArray;
         }
     }
 
     @Override
-    public void addMessage(String clientName, String message) {
-        HistoryMessage newMessage = new HistoryMessage(clientName, message);
+    public void addMessage(String clientName, String message)
+    {
+        HistoryMessage msg = new HistoryMessage(clientName, message);
 
-        synchronized (messageHistory) {
-            messageHistory.addLast(newMessage);
-
-            if (messageHistory.size() > maxMessageHistorySize) {
+        synchronized (messageHistory)
+        {
+            if (messageHistory.size() == historySize)
+            {
                 messageHistory.removeFirst();
+                messageHistory.addLast(msg);
+            }
+            else
+            {
+                messageHistory.addLast(msg);
             }
         }
     }
