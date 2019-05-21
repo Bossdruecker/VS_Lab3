@@ -13,8 +13,8 @@ import org.omg.PortableServer.POAHelper;
 
 public class ChatServerApp {
 
-    static final String CHAT_SERVER_NAME = "ChatServer";
-    static final String CHAT_HISTORY_SERVER_NAME = "ChatHistoryServer";
+    static final String SERVER = "ChatServer";
+    static final String HISTORY_SERVER = "HistoryServer";
 
     public static void main(String[] args)
     {
@@ -35,20 +35,20 @@ public class ChatServerApp {
             NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
 
             ChatServerImpl chatServerImpl = new ChatServerImpl();
-            ChatHistoryMethods chatHistoryServer = ChatHistoryMethodsHelper.narrow(ncRef.resolve_str(CHAT_HISTORY_SERVER_NAME));
+            ChatHistoryMethods chatHistoryServer = ChatHistoryMethodsHelper.narrow(ncRef.resolve_str(HISTORY_SERVER));
             chatServerImpl.setHistoryServer(chatHistoryServer);
 
             // bind the Object Reference in Naming
             // get object reference from the servant
             ChatServer href = ChatServerHelper.narrow(rootpoa.servant_to_reference(chatServerImpl));
-            NameComponent path[] = ncRef.to_name(CHAT_SERVER_NAME);
+            NameComponent path[] = ncRef.to_name(SERVER);
             ncRef.rebind(path, href);
 
             System.out.println("ChatServer ready and waiting ...");
 
             // wait for invocations from clients
             orb.run();
-            System.out.println("ChatHistoryServer ready and waiting ...");
+            System.out.println("HistoryServer ready and waiting ...");
         }
         catch (Exception e)
         {

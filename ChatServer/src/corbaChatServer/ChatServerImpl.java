@@ -4,15 +4,13 @@ import ChatApp.ChatClient;
 import ChatApp.ChatHistoryMethods;
 import ChatApp.ChatServerPOA;
 import ChatApp.HistoryMessage;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class ChatServerImpl extends ChatServerPOA
 {
 
-    final String HISTORY_CMD = "!History";
+    static String HISTORY_CMD = "!History";
 
     ChatHistoryMethods historyServer;
     private final Map<String, ChatClient> clients = new HashMap<>();
@@ -55,12 +53,16 @@ public class ChatServerImpl extends ChatServerPOA
     @Override
     public void receiveMessage(String clientName, String chatMessage)
     {
+
         if (HISTORY_CMD.equals(chatMessage))
         {
-            String msg = "";
-            for (HistoryMessage historyMessage : historyServer.getHistory())
+            int count = 0;
+            String msg = "\n";
+            HistoryMessage[] historyArray = historyServer.getHistory();
+            while(count < historyArray.length)
             {
-                msg = msg + historyMessage.clientName + ": " + historyMessage.message + "\n";
+                msg = msg + historyArray[count].clientName + ": " + historyArray[count].message + "\n";
+                count++;
             }
 
             ChatClient historyClient = clients.get(clientName);
@@ -75,7 +77,7 @@ public class ChatServerImpl extends ChatServerPOA
         historyServer.addMessage(clientName, chatMessage);
         synchronized (clients)
         {
-            clients.values().forEach((activeChatClient) -> activeChatClient.receiveMessage(clientName, chatMessage));
+            clients.values().forEach((ChatClient) -> ChatClient.receiveMessage(clientName, chatMessage));
         }
     }
 }

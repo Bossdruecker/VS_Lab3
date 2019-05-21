@@ -14,8 +14,9 @@ import java.util.Scanner;
 
 public class ChatClientApp {
 
-    static final String EXIT_CMD = "!Exit";
-    static final String CHAT_SERVER_NAME = "ChatServer";
+    static String EXIT_CMD = "!Exit";
+    static String SERVER = "ChatServer";
+    static String HISTORY_CMD = "!History";
 
     public static void main(String[] args)
     {
@@ -35,7 +36,7 @@ public class ChatClientApp {
             // Naming Service (INS) specification.
             NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
 
-            ChatServer chatServer = ChatServerHelper.narrow(ncRef.resolve_str(CHAT_SERVER_NAME));
+            ChatServer chatServer = ChatServerHelper.narrow(ncRef.resolve_str(SERVER));
             //System.out.println("Obtained a handle on server object: " + chatServer);
 
             ChatClientImpl chatClientImpl = new ChatClientImpl();
@@ -57,6 +58,7 @@ public class ChatClientApp {
                 }
             }
             System.out.println("Sie sind jetzt angemeldet");
+            chatServer.receiveMessage(chatClientImpl.getNickname(), HISTORY_CMD);
 
             //message überprüfen auf !Exit Command bei jeder Nachricht
             String message = "";

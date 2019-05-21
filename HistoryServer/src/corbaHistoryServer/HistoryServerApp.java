@@ -42,15 +42,15 @@ public class HistoryServerApp
             ChatHistoryMethods href = ChatHistoryMethodsHelper.narrow(ref);
 
             // bind the Object Reference in Naming
-            String name = "ChatHistoryServer";
+            String name = "HistoryServer";
             NameComponent path[] = ncRef.to_name(name);
             ncRef.rebind(path, href);
 
-            System.out.println("ChatHistoryServer ready and waiting ...");
+            System.out.println("HistoryServer ready and waiting ...");
 
             // wait for invocations from clients
             orb.run();
-            System.out.println("ChatHistoryServer ready and waiting ...");
+            System.out.println("HistoryServer ready and waiting ...");
         }
         catch (Exception e)
         {
@@ -58,6 +58,6 @@ public class HistoryServerApp
             e.printStackTrace(System.out);
         }
 
-        System.out.println("ChatHistoryServer Exiting ...");
+        System.out.println("HistoryServer Exiting ...");
     }
 }
